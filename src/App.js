@@ -1,44 +1,9 @@
 import React from 'react'
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
-
-class MyReads extends React.Component {
-    render() {
-        return (
-            <div className="bookshelf-books">
-                    <ol className="books-grid">
-                    {this.props.books.filter(x => x.stage === this.props.typeRead).map(book => (
-                 
-                          <li key={book.id}>
-                                <div className="book">
-                                    <div className="book-top">
-                                        <div className="book-cover" style={book.styleBook}></div>
-                                    <div className="book-shelf-changer">
-                                        <select value={book.stage} onChange={() => this.props.updateStage(book)}>
-                                                <option value="move" disabled>Move to...</option>
-                                                <option value="currentlyReading"> Currently Reading</option>
-                                                <option value="wantToRead">Want to Read</option>
-                                                <option value="read">Read</option>
-                                                <option value="none">None</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="book-title">{book.title}</div>
-                                    <div className="book-authors">{book.author}</div>
-                                </div>
-                            </li>
+import MyReads from './MyReads'
 
 
-                    )
-                               )
-                     }
-                    </ol>
-                </div>
-           
-            
-            )
-    }
-}
 
 
 class BooksApp extends React.Component {
@@ -127,7 +92,7 @@ class BooksApp extends React.Component {
 
     updateStage = (book) => {
         this.setState((state) => ({
-            books: state.books.map((b) => b.stage = "wantToRead")
+            books: state.books.map((b) => book.stage = b.stage)
         }))
     }
 
@@ -156,40 +121,22 @@ class BooksApp extends React.Component {
             </div>
           </div>
         ) : (
+
           <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
-              <div>
-                <div className="bookshelf">
-                <h2 className="bookshelf-title">Currently Reading </h2>
-                                    <MyReads typeRead="currentlyReading" books={this.state.books} updateStage={this.updateStage}/>
-               </div>
+                 <MyReads readTitle="Currently Reading" books={this.state.books.filter(x => x.stage === 'currentlyReading')} updateStage={this.updateStage}/>
+                  <MyReads readTitle="Want to Read" books={this.state.books.filter(x => x.stage === 'wantToRead')} updateStage={this.updateStage}/>
+                  <MyReads readTitle="Read" books={this.state.books.filter(x => x.stage === 'read')} updateStage={this.updateStage} />
+           </div>
 
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Want to Read</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                                            <MyReads typeRead="wantToRead" books={this.state.books} updateStage={this.updateStage}/>
-                    </ol>
-                  </div>
-                </div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Read</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                                            <MyReads typeRead="read" books={this.state.books} updateStage={this.updateStage} />
-                    </ol>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="open-search">
+          <div className="open-search">
               <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
-            </div>
           </div>
-        )}
+         </div>
+     )}
       </div>
     )
   }
