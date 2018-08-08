@@ -12,17 +12,17 @@ class BooksApp extends React.Component {
         super(props)
         this.state = {
             books: [
-                {
-                    id: 1,
-                    styleBook: {
-                        width: 128,
-                        height: 193,
-                        backgroundImage: 'url("http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api")'
-                    },
-                    title: "To Kill a Mockingbird",
-                    author: "Harper Lee",
-                    shelf: "currentlyReading"
-                }
+                //{
+                //    id: 1,
+                //    styleBook: {
+                //        width: 128,
+                //        height: 193,
+                //        backgroundImage: 'url("http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api")'
+                //    },
+                //    title: "To Kill a Mockingbird",
+                //    author: "Harper Lee",
+                //    shelf: "currentlyReading"
+                //}
                 //{
                 //    id: 2,
                 //    styleBook: {
@@ -95,21 +95,31 @@ class BooksApp extends React.Component {
     }
 
     updateStage = (book, e) => {
-   
-        this.setState((state) => ({
-            books: state.books.map((b) => (
-                {
-                    id: b.id,
-                    styleBook: b.styleBook,
-                    title: b.title,
-                    author: b.author,
-                    shelf: (b.id === book.id ? e : b.shelf)
-                }
-            ))
+
+        BooksAPI.update(book, e).then(() => {
+            this.setState((state) => ({
+                books: state.books.map((b) => (
+                    {
+                        id: b.id,
+                        title: b.title,
+                        author: b.author,
+                        shelf: (b.id === book.id ? e : b.shelf),
+                        imageLinks: b.imageLinks
+                    }
+                ))
+            })) })
+
+
+       
+    }
+
+
+    componentDidMount() {
+        BooksAPI.getAll().then((b) => this.setState({
+            books: b
         }))
     }
 
-   
 
   render() {
     return (
