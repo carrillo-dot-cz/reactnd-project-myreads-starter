@@ -2,8 +2,8 @@ import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import MyReads from './MyReads'
-import MySearch from '/MySearch'
-
+import MySearch from './MySearch'
+ 
 
 class BooksApp extends React.Component {
 
@@ -106,10 +106,11 @@ class BooksApp extends React.Component {
                         imageLinks: b.imageLinks
                     }
                 ))
-            })) })
+            }))
+        })
 
 
-       
+
     }
 
 
@@ -119,32 +120,38 @@ class BooksApp extends React.Component {
         }))
     }
 
+    updateSearch = (prevState) => {
+        this.setState((prevState) => {
+            return { showSearchPage: false };
+        });
+    }
 
-  render() {
-    return (
-        <div className="app">
-            <MySearch/>
+    render() {
+        return (
+            <div className="app">
+                {this.state.showSearchPage ? (
+                    <MySearch updateSearch={this.updateSearch} currentBooks={this.state.books} />) : (
 
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-            <div className="list-books-content">
-     
-                           <MyReads readTitle="Currently Reading" books={this.state.books.filter(x => x.shelf === 'currentlyReading')} updateStage={this.updateStage} />
-                            <MyReads readTitle="Want to Read" books={this.state.books.filter(x => x.shelf === 'wantToRead')} updateStage={this.updateStage} />
-                            <MyReads readTitle="Read" books={this.state.books.filter(x => x.shelf === 'read')} updateStage={this.updateStage} />
+                <div className="list-books">
+                    <div className="list-books-title">
+                        <h1>MyReads</h1>
+                    </div>
+                    <div className="list-books-content">
 
-              </div>
+                        <MyReads readTitle="Currently Reading" books={this.state.books.filter(x => x.shelf === 'currentlyReading')} updateStage={this.updateStage} />
+                        <MyReads readTitle="Want to Read" books={this.state.books.filter(x => x.shelf === 'wantToRead')} updateStage={this.updateStage} />
+                        <MyReads readTitle="Read" books={this.state.books.filter(x => x.shelf === 'read')} updateStage={this.updateStage} />
 
-          <div className="open-search">
-              <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
-          </div>
-         </div>
-     )}
+                    </div>
+
+                    <div className="open-search">
+                        <a onClick={() => this.setState({ showSearchPage: true })}>Add a book!</a>
+                    </div>
+                </div>
+                )})
       </div>
-    )
-  }
-}
+        )
 
+    }
+}
 export default BooksApp
