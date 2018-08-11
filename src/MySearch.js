@@ -1,6 +1,7 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
-import ResultsSearch from './ResultSearch';
+import ResultsSearch from './ResultSearch'
+import { Link } from 'react-router-dom'
 
 class MySearch extends React.Component {
     constructor(props) {
@@ -16,22 +17,23 @@ class MySearch extends React.Component {
             value : event
         })
 
-        if (event !== '') {
-            BooksAPI.search(event).then((b) => this.setState({
-                queryBooks: b
-        }))
-            //this.setState({
-            //    queryBooks: currentBooks
-            //})
-        } else {
-            this.setState({
-                queryBooks: []
-            })
-        }
+         if (event !== '') {
+            BooksAPI.search(event).then((b) => 
+               this.setState((state) => (
+                    {
+                        queryBooks: b
+                    }
+            )
+                
+            ))
 
-        //BooksAPI.getAll().then((b) => this.setState({
-        //    queryBooks: b
-        //}))
+        } else {
+            this.setState((state)=>(
+                {
+                queryBooks: []
+                }
+            ))
+        }
 
     }
 
@@ -41,7 +43,7 @@ class MySearch extends React.Component {
       return (
             <div className="search-books">
                 <div className="search-books-bar">
-                    <a className="close-search" onClick={() => this.props.updateSearch()}>Close</a>
+                    <Link to="/" className="close-search">Close </Link>
                     <div className="search-books-input-wrapper">
                         {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
