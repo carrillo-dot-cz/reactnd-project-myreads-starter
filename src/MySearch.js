@@ -20,17 +20,19 @@ class MySearch extends React.Component {
 
 
             function updateBook(b, oldbooks) {
+
+            
+
                 if (b === undefined || b.length === undefined) {
                     return ({})
                 }
-
-          
+                          
                 return (b.map((x) => (
                     {
                         id: x.id,
                         title: x.title,
                         author: x.author,
-                        shelf: 'none',
+                        shelf: (oldbooks.find(y => y.id === x.id) !== undefined ? oldbooks.find(y => y.id === x.id).shelf : 'none'),
                         imageLinks: (x.imageLinks === undefined ? '' : x.imageLinks )
                     }
                 )))
@@ -79,7 +81,7 @@ class MySearch extends React.Component {
                     <ol className="books-grid"></ol>
               </div>
 
-              <ResultsSearch books={this.state.queryBooks} />
+              <ResultsSearch books={this.state.queryBooks} updateStage={this.props.updateStage}  />
             </div>
         )
     }
