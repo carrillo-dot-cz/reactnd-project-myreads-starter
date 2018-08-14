@@ -30,9 +30,7 @@ class BooksApp extends React.Component {
                 ))
             }))
         })
-
-
-
+        this.forceUpdate();
     }
 
     componentDidMount() {
@@ -44,8 +42,6 @@ class BooksApp extends React.Component {
 
     render() {
         return (
-
-           
             <div className="app">
                 <Route path="/" exact render={() => (
                         <div className="list-books">

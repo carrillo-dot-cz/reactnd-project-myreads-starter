@@ -2,6 +2,7 @@ import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import ResultsSearch from './ResultSearch'
 import { Link } from 'react-router-dom'
+import BooksApp from './App';
 
 class MySearch extends React.Component {
     constructor(props) {
@@ -12,28 +13,44 @@ class MySearch extends React.Component {
         }
       }
 
-     
+
+    updateStageQuery = (book, e) => {
+        this.setState((state) => ({
+            queryBooks: state.queryBooks.map((b) => (
+                {
+                    id: b.id,
+                    title: b.title,
+                    author: b.author,
+                    shelf: (b.id === book.id ? e : b.shelf),
+                    imageLinks: b.imageLinks
+                }
+            ))
+        }))
+
+        this.props.updateStage(book, e)
+
+    
+}
+
+
         handleChange(event, currentBooks) {
         this.setState({
             value : event
             })
 
 
-            function updateBook(b, oldbooks) {
-
-            
-
-                if (b === undefined || b.length === undefined) {
+            function updateBook(queryBooks, oldbooks) {
+                if (queryBooks === undefined || queryBooks.length === undefined) {
                     return ({})
                 }
-                          
-                return (b.map((x) => (
+                
+                return (queryBooks.map((aBook) => (
                     {
-                        id: x.id,
-                        title: x.title,
-                        author: x.author,
-                        shelf: (oldbooks.find(y => y.id === x.id) !== undefined ? oldbooks.find(y => y.id === x.id).shelf : 'none'),
-                        imageLinks: (x.imageLinks === undefined ? '' : x.imageLinks )
+                        id: aBook.id,
+                        title: aBook.title,
+                        author: aBook.author,
+                        shelf: (oldbooks.find(y => y.id === aBook.id) !== undefined ? oldbooks.find(y => y.id === aBook.id).shelf : 'none'),
+                        imageLinks: (aBook.imageLinks === undefined ? '' : aBook.imageLinks )
                     }
                 )))
                
@@ -73,7 +90,7 @@ class MySearch extends React.Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                      <input type="text" value={this.state.value} placeholder="Search by title or author" onChange={(e) => this.handleChange(e.target.value)} />
+                      <input type="text" value={this.state.value} placeholder="Search by title or author" onChange={(e) => this.handleChange(e.target.value, this.props.currentBooks)} />
 
                     </div>
                 </div>
@@ -81,7 +98,7 @@ class MySearch extends React.Component {
                     <ol className="books-grid"></ol>
               </div>
 
-              <ResultsSearch books={this.state.queryBooks} updateStage={this.props.updateStage}  />
+              <ResultsSearch books={this.state.queryBooks} updateStageQuery={this.updateStageQuery} />
             </div>
         )
     }

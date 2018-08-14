@@ -21,7 +21,7 @@ function ResultsSearch(props) {
 
                                         }}></div>
                                         <div className="book-shelf-changer">
-                                            <select value={book.shelf} onChange={(e) => props.updateStage(book, e.target.value)} >
+                                            <select value={book.shelf} onChange={(e) => props.updateStageQuery(book, e.target.value)} >
                                                 <option value="move" disabled>Move to...</option>
                                                 <option value="currentlyReading"> Currently Reading</option>
                                                 <option value="wantToRead">Want to Read</option>
