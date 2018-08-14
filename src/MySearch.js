@@ -2,7 +2,7 @@ import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import ResultsSearch from './ResultSearch'
 import { Link } from 'react-router-dom'
-import BooksApp from './App';
+ 
 
 class MySearch extends React.Component {
     constructor(props) {
@@ -28,11 +28,9 @@ class MySearch extends React.Component {
         }))
 
         this.props.updateStage(book, e)
-
     
 }
-
-
+ 
         handleChange(event, currentBooks) {
         this.setState({
             value : event
@@ -79,8 +77,8 @@ class MySearch extends React.Component {
 
       return (
             <div className="search-books">
-                <div className="search-books-bar">
-                    <Link to="/" className="close-search">Close </Link>
+              <div className="search-books-bar">
+                  <Link to="/" className="close-search" onClick={() => this.props.RefreshMe()}>Close </Link>
                     <div className="search-books-input-wrapper">
                         {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.

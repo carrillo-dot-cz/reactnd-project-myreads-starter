@@ -12,8 +12,14 @@ class BooksApp extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            books: []
+            books: [],
+            refresh: false
         }
+    }
+
+    RefreshMe = (e) => {
+        e.preventDefault();
+        this.forceUpdate()
     }
 
     updateStage = (book, e) => {
@@ -30,8 +36,9 @@ class BooksApp extends React.Component {
                 ))
             }))
         })
-        this.forceUpdate();
+        
     }
+ 
 
     componentDidMount() {
         BooksAPI.getAll().then((b) => this.setState({
@@ -60,8 +67,8 @@ class BooksApp extends React.Component {
                             </div>
                         </div>
                     )
-                } /> 
-                <Route path="/search" render={() => <MySearch currentBooks={this.state.books} updateStage={this.updateStage} />} />
+                } />
+                <Route path="/search" render={() => <MySearch currentBooks={this.state.books} updateStage={this.updateStage} RefreshMe={this.RefreshMe} />} />
             </div>
         )
     }
